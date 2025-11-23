@@ -5,7 +5,7 @@ import CoreConcepts from './CoreConcepts';
 import TabButton from './TabButton';
 
 export default function Main() {
-  const [tab, setTab] = useState('components')
+  const [tab, setTab] = useState()
 
   return (
     <main>
@@ -18,6 +18,7 @@ export default function Main() {
           <CoreConcepts {...CORE_CONCEPTS[3]}/>
         </ul>
       </section>
+
       <section id="examples">
         <h2>Examples</h2>
         <menu>
@@ -27,11 +28,14 @@ export default function Main() {
           <TabButton onSelect={() => setTab('state')}>State</TabButton>
         </menu>
         <div id="tab-content">
+          {!tab ? <p>Please select a topic.</p> : 
+          <>
           <h3>{EXAMPLES[tab].title}</h3>
           <p>{EXAMPLES[tab].description}</p>
           <pre>
             <code>{EXAMPLES[tab].code}</code>
           </pre>
+          </>}
         </div>
       </section>
     </main>
