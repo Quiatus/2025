@@ -10,22 +10,19 @@ export default function Main() {
   return (
     <main>
       <section id='core-concepts'>
-        {/* <h2>React Essentials</h2> */}
+        <h2>React Essentials</h2>
         <ul>
-          <CoreConcepts {...CORE_CONCEPTS[0]}/>
-          <CoreConcepts {...CORE_CONCEPTS[1]}/>
-          <CoreConcepts {...CORE_CONCEPTS[2]}/>
-          <CoreConcepts {...CORE_CONCEPTS[3]}/>
+          {CORE_CONCEPTS.map((item) => <CoreConcepts key={item.title} {...item}/>)}
         </ul>
       </section>
 
       <section id="examples">
         <h2>Examples</h2>
         <menu>
-          <TabButton onSelect={() => setTab('components')}>Components</TabButton>
-          <TabButton onSelect={() => setTab('jsx')}>JSX</TabButton>
-          <TabButton onSelect={() => setTab('props')}>Props</TabButton>
-          <TabButton onSelect={() => setTab('state')}>State</TabButton>
+          <TabButton isSelected={tab === 'components'} onSelect={() => setTab('components')}>Components</TabButton>
+          <TabButton isSelected={tab === 'jsx'} onSelect={() => setTab('jsx')}>JSX</TabButton>
+          <TabButton isSelected={tab === 'props'} onSelect={() => setTab('props')}>Props</TabButton>
+          <TabButton isSelected={tab === 'state'} onSelect={() => setTab('state')}>State</TabButton>
         </menu>
         <div id="tab-content">
           {!tab ? <p>Please select a topic.</p> : 
@@ -36,7 +33,8 @@ export default function Main() {
             <code>{EXAMPLES[tab].code}</code>
           </pre>
           </>}
-        </div>
+        </div>  
+        
       </section>
     </main>
   )
