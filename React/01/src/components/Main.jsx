@@ -1,8 +1,12 @@
-import { CORE_CONCEPTS } from '../data';
+import { useState } from 'react';
+
+import { CORE_CONCEPTS, EXAMPLES } from '../data';
 import CoreConcepts from './CoreConcepts';
 import TabButton from './TabButton';
 
 export default function Main() {
+  const [tab, setTab] = useState('components')
+
   return (
     <main>
       <section id='core-concepts'>
@@ -17,11 +21,18 @@ export default function Main() {
       <section id="examples">
         <h2>Examples</h2>
         <menu>
-          <TabButton>Components</TabButton>
-          <TabButton>JSX</TabButton>
-          <TabButton>Props</TabButton>
-          <TabButton>State</TabButton>
+          <TabButton onSelect={() => setTab('components')}>Components</TabButton>
+          <TabButton onSelect={() => setTab('jsx')}>JSX</TabButton>
+          <TabButton onSelect={() => setTab('props')}>Props</TabButton>
+          <TabButton onSelect={() => setTab('state')}>State</TabButton>
         </menu>
+        <div id="tab-content">
+          <h3>{EXAMPLES[tab].title}</h3>
+          <p>{EXAMPLES[tab].description}</p>
+          <pre>
+            <code>{EXAMPLES[tab].code}</code>
+          </pre>
+        </div>
       </section>
     </main>
   )
