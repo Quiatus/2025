@@ -1,14 +1,14 @@
+import { useState } from 'react';
 import { EXAMPLES } from '../data';
 import TabButton from './TabButton';
-import { useState } from 'react';
+import Section from './Section';
 import "./Examples.css"
 
 export default function Examples() {
   const [tab, setTab] = useState();
 
   return (
-      <section id="examples">
-        <h2>Examples</h2>
+      <Section title="Examples" id="examples">
         <menu>
           <TabButton isSelected={tab === 'components'} onSelect={() => setTab('components')}>Components</TabButton>
           <TabButton isSelected={tab === 'jsx'} onSelect={() => setTab('jsx')}>JSX</TabButton>
@@ -26,6 +26,6 @@ export default function Examples() {
             </>}
         </div>
 
-      </section>
+      </Section>
   )
 }
