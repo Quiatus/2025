@@ -10,14 +10,16 @@ export default function Examples() {
 
   return (
       <Section title="Examples" id="examples">
-        <Tabs buttons={
-          <>
-          <TabButton isSelected={tab === 'components'} onSelect={() => setTab('components')}>Components</TabButton>
-          <TabButton isSelected={tab === 'jsx'} onSelect={() => setTab('jsx')}>JSX</TabButton>
-          <TabButton isSelected={tab === 'props'} onSelect={() => setTab('props')}>Props</TabButton>
-          <TabButton isSelected={tab === 'state'} onSelect={() => setTab('state')}>State</TabButton>
-          </>
-        }>
+        <Tabs 
+          buttonsContainer="menu"
+          buttons={
+            <>
+            <TabButton isSelected={tab === 'components'} onSelect={() => setTab('components')}>Components</TabButton>
+            <TabButton isSelected={tab === 'jsx'} onSelect={() => setTab('jsx')}>JSX</TabButton>
+            <TabButton isSelected={tab === 'props'} onSelect={() => setTab('props')}>Props</TabButton>
+            <TabButton isSelected={tab === 'state'} onSelect={() => setTab('state')}>State</TabButton>
+            </>
+          }>
           <div id="tab-content">
             {!tab ? <p>Please select a topic.</p> :
               <>
