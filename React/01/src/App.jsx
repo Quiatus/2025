@@ -1,12 +1,16 @@
 import Header from './components/Header';
-import Main from './components/Main';
+import Examples from './components/Examples';
+import CoreConcepts from './components/CoreConcepts';
 
 function App() {
   return (
-    <div>
+    <>
       <Header />
-      <Main />
-    </div>
+      <main>
+        <CoreConcepts />
+        <Examples />
+      </main>
+    </>
   );
 }
 
