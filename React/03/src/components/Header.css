@@ -1,0 +1,26 @@
+#header {
+  display: flex;
+  height: 4rem;
+  background: linear-gradient(180deg, #307e6c, #2b996d);
+  border-bottom: 1px solid lightgreen;
+}
+
+#header-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 1rem;
+}
+
+#header-logo img {
+  width: 3rem;
+  height: auto;
+  object-fit: contain;
+  background-color: transparent;
+}
+
+#header-logo h1 {
+  font-size: 1.8rem;
+  font-weight: 300;
+}

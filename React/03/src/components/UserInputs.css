@@ -1,0 +1,13 @@
+#user-inputs {
+  padding: 1rem 1.5rem 1.5rem;
+  width: 15rem;
+  max-width: 15rem;
+  max-height: fit-content;
+  /* margin: 2rem auto; */
+  border-radius: 4px;
+  background: linear-gradient(180deg, #307e6c, #2b996d);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
