@@ -1,7 +1,6 @@
 import { formatter } from "../util/investment"
 
 export default function Row({result}) {
-  console.log(result)
   return (
     <tr>
       <td>{result.year}</td>

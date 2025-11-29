@@ -3,7 +3,7 @@ import Row from "./Row"
 
 export default function Results({ results }) {
   return (
-    <div id="result">
+    <section id="result">
       <table>
         <thead>
           <tr>
@@ -18,6 +18,6 @@ export default function Results({ results }) {
           {results.map(result => <Row key={result.year} result={result}/>)}
         </tbody>
       </table>
-    </div>
+    </section>
   )
 }
