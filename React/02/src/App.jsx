@@ -15,21 +15,20 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer
 }
 
-function deriveWinner(gameBoard, players) {
-  let winner
-
+function deriveWinner(gameBoard) {
+  let winnerSymbol
   for (const combination of WINNING_COMBINATIONS) {
     const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column]
     const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column]
     const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column]
 
     if (firstSquareSymbol && firstSquareSymbol === secondSquareSymbol && firstSquareSymbol === thirdSquareSymbol) {
-      winner = players[firstSquareSymbol]
-      {firstSquareSymbol === "X" ? score[0]++ : score[1]++}
+      winnerSymbol = firstSquareSymbol
+      firstSquareSymbol === "X" ? score[0]++ : score[1]++
     }
   }
 
-  return winner
+  return winnerSymbol
 }
 
 function deriveGameBoard(gameTurns) {
@@ -49,9 +48,10 @@ export default function App() {
 
   const activePlayer = deriveActivePlayer(gameTurns)
   let gameBoard = deriveGameBoard(gameTurns)
-  const winner = deriveWinner(gameBoard, players)
+  const winnerSymbol = deriveWinner(gameBoard)
+  const winnerName = winnerSymbol ? players[winnerSymbol] : undefined;
   
-  const hasDraw = gameTurns.length === 9 && !winner;
+  const hasDraw = gameTurns.length === 9 && !winnerName;
 
   function handleSelectPlayer(rowIndex, colIndex) {
     setGameTurns((prevTurn) => {
@@ -83,7 +83,7 @@ export default function App() {
           <Player name={PLAYERS.O} symbol="O" isActive={activePlayer === "O"} onChangeName={handlePlayerNameChange}/>
         </ol>
         <Score score={score}/>
-        {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRematch}/>}
+        {(winnerName || hasDraw) && <GameOver winner={winnerName} onRestart={handleRematch}/>}
         <GameBoard onSelectSquare={handleSelectPlayer} board={gameBoard}/>
       </div>
       <Log turns={gameTurns} players={players}/>
