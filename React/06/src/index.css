@@ -89,8 +89,9 @@ header p {
   max-width: 50rem;
   margin: 3rem auto;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .challenge {
@@ -100,7 +101,7 @@ header p {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  margin: 2rem auto;
+  /* margin: 2rem auto; */
   background: linear-gradient(#4df8df, #4df0f8);
   color: #221c18;
   box-shadow: 0 2px 8px rgba(35, 34, 34, 0.6);
