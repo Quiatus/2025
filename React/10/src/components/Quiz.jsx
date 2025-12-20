@@ -7,15 +7,23 @@ import quizComplete from '../assets/quiz-complete.png'
 const TIMER = 5000
 
 export default function Quiz() {
+  const [answerState, setAnswerState] = useState('')
   const [userAnswers, setUserAnswers] = useState([])
 
   const activeQuestiuonIndex = userAnswers.length
   const quizCompleted = activeQuestiuonIndex === QESTIONS.length
 
   const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer) {
+    setAnswerState('answered')
     setUserAnswers((prevState) => {
       return [...prevState, selectedAnswer]
     })
+
+    setTimeout(() => {
+      if (selectedAnswer === QESTIONS[activeQuestiuonIndex].answers[0]) {
+        console.log('corfrfect')
+      }
+    }, 1000)
   }, [])
 
   const handleSkipAnswer = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer])
