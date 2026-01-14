@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     async function fetchPlaces() {
       setIsFetching(true)
+      
       try {
         const places = await fetchUserPlaces()
         setUserPlaces(places)
@@ -31,7 +32,6 @@ function App() {
       }
 
       setIsFetching(false)
-      
     }
 
     fetchPlaces()
