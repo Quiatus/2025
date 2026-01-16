@@ -10,16 +10,20 @@ export default function AvailablePlaces({ onSelectPlace }) {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    setIsFetching(true)
     async function fetchPlaces() {
+      setIsFetching(true)
       try {
         const places = await fetchAvailablePlaces()
 
-        navigator.geolocation.getCurrentPosition((position) => {
-          const sortedPlaces = sortPlacesByDistance(places, position.coords.latitude, position.coords.longitude)
-          setAvailablePlaces(sortedPlaces)
-          setIsFetching(false)
-        })
+        // navigator.geolocation.getCurrentPosition((position) => {
+        //   const sortedPlaces = sortPlacesByDistance(places, position.coords.latitude, position.coords.longitude)
+        //   setAvailablePlaces(sortedPlaces)
+        //   setIsFetching(false)
+        // })
+
+        setAvailablePlaces(places)
+        setIsFetching(false)
+
       } catch (error) {
         setError(error)
         setIsFetching(false)
