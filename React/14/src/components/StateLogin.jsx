@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "./Input";
 
 export default function Login() {
   const [values, setValues] = useState({
@@ -12,6 +13,7 @@ export default function Login() {
   })
 
   const emailIsInvalid = wasEdited.email && !values.email.includes('@') 
+  const passwordIdInvalid = wasEdited.password && !values.password.trim().length < 6 
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -40,29 +42,28 @@ export default function Login() {
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input 
-            id="email" 
-            type="email" 
-            name="email" 
-            onChange={(e) => handleInputChange('email', e.target.value)} 
-            onBlur={() => handleInputBlur('email')}
-            value={values.email}
-          />
-          <div className="control-error">{emailIsInvalid && <p>Please enter a valid email!</p>}</div>
-        </div>
+        <Input 
+          label="Email"
+          id="email"
+          type="email"
+          name="email"
+          onChange={(e) => handleInputChange('email', e.target.value)} 
+          onBlur={() => handleInputBlur('email')}
+          value={values.email}
+          error={emailIsInvalid && 'Please enter a valid email'}
+        />
 
-        <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input 
-            id="password" 
-            type="password" 
-            name="password" 
-            onChange={(e) => handleInputChange('password', e.target.value)} 
-            value={values.password}
-          />
-        </div>
+        <Input 
+          label="Password"
+          id="password"
+          type="password"
+          name="password"
+          onChange={(e) => handleInputChange('password', e.target.value)} 
+          onBlur={() => handleInputBlur('password')}
+          value={values.password}
+          error={passwordIdInvalid && 'Please enter a valid password'}
+        />
+
       </div>
 
       <p className="form-actions">
