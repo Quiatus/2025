@@ -10,6 +10,6 @@ export function hasMinLength(value, minLength) {
   return value.length >= minLength;
 }
 
-export function isEqualToOtherValue(value, otherValue) {
+export function isEqual(value, otherValue) {
   return value === otherValue;
 }
