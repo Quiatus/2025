@@ -1,36 +1,43 @@
+import { use } from 'react'
 import { useActionState } from 'react'
-
-function handleSubmit(prevFormState, formData) {
-  const userName = formData.get('userName')
-  const title = formData.get('title')
-  const body = formData.get('body')
-
-  let errors = []
-
-  if (!userName.trim()) {
-    errors.push('Please enter the user name.')
-  }
-
-  if (title.trim().length < 3) {
-    errors.push('Title must be at least 3 characters long.')
-  }
-
-  if (body.trim().length < 10) {
-    errors.push('Opinion must be at least 10 characters long.')
-  }
-
-  if (errors.length > 0) {
-    return { errors, values: {
-      userName, 
-      title,
-      body
-    } }
-  }
-
-  return { errors: null }
-}
+import { OpinionsContext } from '../store/opinions-context'
+import Submit from './Submit'
 
 export function NewOpinion() {
+  const {addOpinion} = use(OpinionsContext)
+  
+  async function handleSubmit(prevFormState, formData) {
+    const userName = formData.get('userName')
+    const title = formData.get('title')
+    const body = formData.get('body')
+
+    let errors = []
+
+    if (!userName.trim()) {
+      errors.push('Please enter the user name.')
+    }
+
+    if (title.trim().length < 3) {
+      errors.push('Title must be at least 3 characters long.')
+    }
+
+    if (body.trim().length < 10) {
+      errors.push('Opinion must be at least 10 characters long.')
+    }
+
+    if (errors.length > 0) {
+      return { errors, values: {
+        userName, 
+        title,
+        body
+      } }
+    }
+
+    await addOpinion({ title, body, userName })
+
+    return { errors: null }
+  }
+
   const [formState, formAction, pending] = useActionState(handleSubmit, { errors: null })
 
   return (
@@ -57,9 +64,8 @@ export function NewOpinion() {
           {formState.errors.map(error => <li key={error}>{error}</li>)}
         </ul>}
 
-        <p className="actions">
-          <button type="submit">Submit</button>
-        </p>
+        <Submit/>
+
       </form>
     </div>
   );
