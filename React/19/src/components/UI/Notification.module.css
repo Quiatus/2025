@@ -34,11 +34,24 @@
   background-color: #1ad1b9;
 }
 
+.hide {
+  animation: slideUp 0.5s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
 @keyframes slideDown {
   from {
     transform: translateY(-100%);
   }
   to {
     transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
   }
 }
