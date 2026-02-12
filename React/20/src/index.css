@@ -1,7 +1,5 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 :root {
@@ -49,4 +47,9 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+main {
+  margin: 2rem auto;
+  text-align: center;
 }
