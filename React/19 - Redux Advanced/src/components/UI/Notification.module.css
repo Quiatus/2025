@@ -1,0 +1,57 @@
+.notification {
+  width: fit-content;
+  height: 3rem;
+  background-color: #1a8ed1;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+  padding: 0.5rem 2%;
+  align-items: center;
+  color: white;
+  margin: 0 auto;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  animation: slideDown 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform: translateY(-100%);
+}
+
+.notification h2,
+.notification p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.error {
+  background-color: #690000;
+}
+
+.success {
+  background-color: #1ad1b9;
+}
+
+.hide {
+  animation: slideUp 0.5s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
