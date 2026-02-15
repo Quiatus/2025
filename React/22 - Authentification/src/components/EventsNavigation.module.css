@@ -22,3 +22,8 @@
 .list a.active {
   background-color: var(--color-primary-600);
 }
+
+.list a.active {
+  background-color: var(--color-primary-600);
+  box-shadow: var(--color-primary-600) 0 0 10px 2px;
+}
