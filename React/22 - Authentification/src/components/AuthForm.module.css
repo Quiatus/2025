@@ -18,8 +18,9 @@
 
 .actions {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+  /* gap: 1rem;
+  justify-content: flex-end; */
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -35,8 +36,7 @@
 
 .actions a {
   text-decoration: none;
-  background-color: transparent;
-  color: var(--color-gray-300);
+  color: var(--color-primary-800);
 }
 
 .actions button:hover {
@@ -44,5 +44,6 @@
 }
 
 .actions a:hover {
-  background-color: var(--color-gray-800);
+  color: var(--color-primary-400);
+  text-shadow: var(--color-primary-400) 0 0 5px;
 }

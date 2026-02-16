@@ -12,6 +12,7 @@ function MainNavigation() {
           <li><NavLink to="/" end className={changeActiveClass}>Home</NavLink></li>
           <li><NavLink to="/events" className={changeActiveClass}>Events</NavLink></li>
           <li><NavLink to="/newsletter" className={changeActiveClass}>Newsletter</NavLink></li>
+          <li><NavLink to="/auth?mode=login" className={changeActiveClass}>Login</NavLink></li>
         </ul>
       </nav>
       <NewsletterSignup />
