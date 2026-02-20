@@ -18,7 +18,16 @@
 }
 
 .list a:hover,
+.btnLink:hover,
 .list a.active {
   color: var(--color-primary-400);
   text-shadow: var(--color-primary-400) 0 0 5px;
+}
+
+.btnLink {
+  color: var(--color-primary-800);
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
