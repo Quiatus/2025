@@ -71,7 +71,7 @@ app.get('/events/:id', async (req, res) => {
 
   setTimeout(() => {
     res.json({ event });
-  }, 1000);
+  }, 100);
 });
 
 app.post('/events', async (req, res) => {
