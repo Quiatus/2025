@@ -2,10 +2,14 @@ import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
 import Header from '../Header.jsx';
+import Modal from '../UI/Modal.jsx' 
 import { deleteEvent, fetchEvent, queryClient } from '../../util/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
+import { useState } from 'react';
 
 export default function EventDetails() {
+  const [isDeleting, setIsDeleting] = useState(false)
+
   const params = useParams()
   const navigate = useNavigate()
 
@@ -18,11 +22,20 @@ export default function EventDetails() {
     mutationFn: deleteEvent,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['events']
+        queryKey: ['events'],
+        refetchType: 'none'
       })
       navigate('/events')
     }
   })
+
+  function handleStartDelete() {
+    setIsDeleting(true)
+  }
+
+  function handleStopDelete() {
+    setIsDeleting(false)
+  }
 
   function handleDelete() {
     mutate({ id: params.id })
@@ -53,7 +66,7 @@ export default function EventDetails() {
       <header>
         <h1>{data.title}</h1>
         <nav>
-          <button onClick={ handleDelete }>Delete</button>
+          <button onClick={ handleStartDelete }>Delete</button>
           <Link to="edit">Edit</Link>
         </nav>
       </header>
@@ -72,6 +85,14 @@ export default function EventDetails() {
 
   return (
     <>
+      {isDeleting && <Modal onClose={handleStopDelete}>
+        <h2>Delete Event</h2>
+        <p>Are you sure you want to permanently delete this event?</p>
+        <div className='form-actions'>
+          <button onClick={handleStopDelete} className='button-text'>Cancel</button>
+          <button onClick={handleDelete} className='button'>Delete</button>
+        </div>
+      </Modal>}
       <Outlet />
       <Header>
         <Link to="/events" className="nav-item">
