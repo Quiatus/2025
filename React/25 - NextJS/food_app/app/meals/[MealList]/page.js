@@ -1,4 +1,4 @@
-export default async function MealSlug({ params }) {
+export default async function MealList({ params }) {
   //const { post } = await params
 
   return (
