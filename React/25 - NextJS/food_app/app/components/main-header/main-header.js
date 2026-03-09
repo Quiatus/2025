@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import logoImg from "@/assets/logo.png"
 import classes from  './main-header.module.css'
-import Image from "next/image";
 import Svg from './svg';
+import NavLink from "./nav-link";
 
-export default function MainHeader() {
+export default function MainHeader() {  
   return (
     <>
       <Svg />
@@ -17,8 +19,8 @@ export default function MainHeader() {
         <nav className={classes.nav}>
           <ul>
             <li>
-              <Link href="/meals">Browse Meals</Link>
-              <Link href="/community">Meal Community</Link>
+              <NavLink href="/meals">Browse Meals</NavLink>
+              <NavLink href="/community">Meal Community</NavLink>
             </li>
           </ul>
         </nav>
