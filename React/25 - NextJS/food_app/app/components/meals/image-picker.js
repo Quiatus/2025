@@ -27,7 +27,6 @@ export default function ImagePicker({ label, name }) {
     // }
 
     // fileReader.readAsDataURL(file)
-    
 
     const imageUrl = URL.createObjectURL(file);
 
@@ -50,6 +49,7 @@ export default function ImagePicker({ label, name }) {
           id={name} 
           accept='image/png, image/jpeg'
           onChange={handleImageChange}
+          required
         />
         <button className={classes.button} type='button' onClick={handleImagePickClick}>Pick an Image</button>
       </div>
