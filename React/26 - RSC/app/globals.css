@@ -112,3 +112,18 @@ form button:hover {
 .error > h2 {
   color: #f7711d;
 }
+
+.btnbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btnbox button {
+  border: 1px solid #fa58cf;
+  background-color: #222123;
+  color: #bfbac4;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
