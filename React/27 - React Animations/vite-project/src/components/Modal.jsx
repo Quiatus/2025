@@ -7,8 +7,8 @@ export default function Modal({ title, children, onClose }) {
       <motion.div 
         className="backdrop" 
         onClick={onClose} 
-        animate={{ opacity: 1 }} 
-        exit={{ opacity: 0 }} />
+        exit={{ opacity: 0 }} 
+      />
       <motion.dialog 
         open 
         className="modal"
