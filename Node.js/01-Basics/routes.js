@@ -1,11 +1,11 @@
-const http = require('http')
 const fs = require('fs')
 
-const server = http.createServer((req, res) => {
+const requestHandler = (res, req) => {
   const url = req.url
   const method = req.method
   
   if (url === '/') {
+    res.setHeader('Content-Type', 'text/html')
     res.write('<html>')
     res.write('<head><title>Message</title></head>')
     res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>')
@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
   res.write('<head><title>Node</title></head>')
   res.write('<body>test</body>')
   res.write('</head>')
-  return res.end()
-})
+  res.end()
+}
 
-server.listen(3000)
+exports.handler = requestHandler
