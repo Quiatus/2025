@@ -17,13 +17,27 @@ function autobind(target: Function, context: ClassMemberDecoratorContext) {
     this[context.name] = this[context.name].bind(this)
   })
 
-  return function() {
-    target()
+  return function(this: any) {
+    console.log('Executing original function.')
+    target.apply(this)
+  }
+}
+
+function replacer(initValue: any) {
+  return function replacerDecorator(target: undefined, context: ClassFieldDecoratorContext) {
+    console.log(target)
+    console.log(context)
+
+    return (initValue: any) => {
+      console.log(initValue)
+      return initValue
+    }
   }
 }
 
 @logger
 class Person {
+  @replacer('Name')
   name = 'Pat'
 
   @autobind
