@@ -42,6 +42,16 @@ class ProjectState {
     addProject(title, description, people) {
         const newProject = new Project(Math.random().toString(), title, description, people, ProjectStatus.Active);
         this.projects.push(newProject);
+        this.updateListeners();
+    }
+    moveProject(projectId, newStatus) {
+        const project = this.projects.find(prj => prj.id === projectId);
+        if (project && project.status !== newStatus) {
+            project.status = newStatus;
+            this.updateListeners();
+        }
+    }
+    updateListeners() {
         for (const listenerFn of this.listeners) {
             listenerFn(this.projects.slice());
         }
@@ -109,15 +119,28 @@ class ProjectItem extends Component {
     constructor(hostId, project) {
         super('single-project', hostId, false, project.id);
         this.project = project;
+        this.configure();
         this.renderContent();
     }
-    configure() { }
+    dragStart(e) {
+        e.dataTransfer.setData('text/plain', this.project.id);
+        e.dataTransfer.effectAllowed = 'move';
+    }
+    dragEnd(_) {
+    }
+    configure() {
+        this.element.addEventListener('dragstart', this.dragStart);
+        this.element.addEventListener('dragend', this.dragEnd);
+    }
     renderContent() {
         this.element.querySelector('h2').textContent = this.project.title;
         this.element.querySelector('h3').textContent = this.persons;
         this.element.querySelector('p').textContent = this.project.description;
     }
 }
+__decorate([
+    autobind
+], ProjectItem.prototype, "dragStart", null);
 class ProjectList extends Component {
     type;
     assignedProjects;
@@ -128,6 +151,21 @@ class ProjectList extends Component {
         this.configure();
         this.renderContent();
     }
+    dragOver(e) {
+        if (e.dataTransfer && e.dataTransfer.types[0] === 'text/plain') {
+            e.preventDefault();
+            const listEl = this.element.querySelector('ul');
+            listEl.classList.add('droppable');
+        }
+    }
+    drop(e) {
+        const prjId = e.dataTransfer.getData('text/plain');
+        projectState.moveProject(prjId, this.type === 'active' ? ProjectStatus.Active : ProjectStatus.Finished);
+    }
+    dragLeave(_) {
+        const listEl = this.element.querySelector('ul');
+        listEl.classList.remove('droppable');
+    }
     renderProjects() {
         const listEl = document.getElementById(`${this.type}-project-list`);
         listEl.innerHTML = '';
@@ -136,6 +174,9 @@ class ProjectList extends Component {
         }
     }
     configure() {
+        this.element.addEventListener('dragover', this.dragOver);
+        this.element.addEventListener('dragleave', this.dragLeave);
+        this.element.addEventListener('drop', this.drop);
         projectState.addListener((projects) => {
             const filteredProjects = projects.filter(prj => {
                 if (this.type === 'active') {
@@ -153,6 +194,15 @@ class ProjectList extends Component {
         this.element.querySelector('h2').textContent = this.type.toUpperCase() + ' PROJECTS';
     }
 }
+__decorate([
+    autobind
+], ProjectList.prototype, "dragOver", null);
+__decorate([
+    autobind
+], ProjectList.prototype, "drop", null);
+__decorate([
+    autobind
+], ProjectList.prototype, "dragLeave", null);
 class ProjectInput extends Component {
     titleInputElement;
     descriptionInputElement;
