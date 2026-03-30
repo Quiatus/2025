@@ -7,11 +7,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var App;
 (function (App) {
+    let ProjectStatus;
+    (function (ProjectStatus) {
+        ProjectStatus[ProjectStatus["Active"] = 0] = "Active";
+        ProjectStatus[ProjectStatus["Finished"] = 1] = "Finished";
+    })(ProjectStatus = App.ProjectStatus || (App.ProjectStatus = {}));
+    class Project {
+        constructor(id, title, description, people, status) {
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.people = people;
+            this.status = status;
+        }
+    }
+    App.Project = Project;
+})(App || (App = {}));
+var App;
+(function (App) {
     class ProjectState {
-        listeners = [];
-        projects = [];
-        static instance;
-        constructor() { }
+        constructor() {
+            this.listeners = [];
+            this.projects = [];
+        }
         static getInstance() {
             if (this.instance) {
                 return this.instance;
@@ -40,7 +58,11 @@ var App;
             }
         }
     }
-    const projectState = ProjectState.getInstance();
+    App.ProjectState = ProjectState;
+    App.projectState = ProjectState.getInstance();
+})(App || (App = {}));
+var App;
+(function (App) {
     function validate(validatableInput) {
         let isValid = true;
         if (validatableInput.required) {
@@ -60,6 +82,10 @@ var App;
         }
         return isValid;
     }
+    App.validate = validate;
+})(App || (App = {}));
+var App;
+(function (App) {
     function autobind(_, _2, descriptor) {
         const originalMethod = descriptor.value;
         const adjDescriptor = {
@@ -71,10 +97,11 @@ var App;
         };
         return adjDescriptor;
     }
+    App.autobind = autobind;
+})(App || (App = {}));
+var App;
+(function (App) {
     class Component {
-        templateElement;
-        hostElement;
-        element;
         constructor(templateId, hostElementId, insertAtStart, newElementId) {
             this.templateElement = document.getElementById(templateId);
             this.hostElement = document.getElementById(hostElementId);
@@ -89,8 +116,11 @@ var App;
             this.hostElement.insertAdjacentElement(insertAtStart ? 'afterbegin' : 'beforeend', this.element);
         }
     }
-    class ProjectItem extends Component {
-        project;
+    App.Component = Component;
+})(App || (App = {}));
+var App;
+(function (App) {
+    class ProjectItem extends App.Component {
         get persons() {
             if (this.project.people === 1) {
                 return '1 person assigned';
@@ -122,11 +152,13 @@ var App;
         }
     }
     __decorate([
-        autobind
+        App.autobind
     ], ProjectItem.prototype, "dragStart", null);
-    class ProjectList extends Component {
-        type;
-        assignedProjects;
+    App.ProjectItem = ProjectItem;
+})(App || (App = {}));
+var App;
+(function (App) {
+    class ProjectList extends App.Component {
         constructor(type) {
             super('project-list', 'app', false, `${type}-projects`);
             this.type = type;
@@ -143,7 +175,7 @@ var App;
         }
         drop(e) {
             const prjId = e.dataTransfer.getData('text/plain');
-            projectState.moveProject(prjId, this.type === 'active' ? App.ProjectStatus.Active : App.ProjectStatus.Finished);
+            App.projectState.moveProject(prjId, this.type === 'active' ? App.ProjectStatus.Active : App.ProjectStatus.Finished);
         }
         dragLeave(_) {
             const listEl = this.element.querySelector('ul');
@@ -153,14 +185,14 @@ var App;
             const listEl = document.getElementById(`${this.type}-project-list`);
             listEl.innerHTML = '';
             for (const prjItem of this.assignedProjects) {
-                new ProjectItem(this.element.querySelector('ul').id, prjItem);
+                new App.ProjectItem(this.element.querySelector('ul').id, prjItem);
             }
         }
         configure() {
             this.element.addEventListener('dragover', this.dragOver);
             this.element.addEventListener('dragleave', this.dragLeave);
             this.element.addEventListener('drop', this.drop);
-            projectState.addListener((projects) => {
+            App.projectState.addListener((projects) => {
                 const filteredProjects = projects.filter(prj => {
                     if (this.type === 'active') {
                         return prj.status === App.ProjectStatus.Active;
@@ -178,18 +210,19 @@ var App;
         }
     }
     __decorate([
-        autobind
+        App.autobind
     ], ProjectList.prototype, "dragOver", null);
     __decorate([
-        autobind
+        App.autobind
     ], ProjectList.prototype, "drop", null);
     __decorate([
-        autobind
+        App.autobind
     ], ProjectList.prototype, "dragLeave", null);
-    class ProjectInput extends Component {
-        titleInputElement;
-        descriptionInputElement;
-        peopleInputElement;
+    App.ProjectList = ProjectList;
+})(App || (App = {}));
+var App;
+(function (App) {
+    class ProjectInput extends App.Component {
         constructor() {
             super('project-input', 'app', true, 'user-input');
             this.titleInputElement = this.element.querySelector('#title');
@@ -216,7 +249,7 @@ var App;
                 min: 1,
                 max: 5
             };
-            if (!validate(titleValidatable) || !validate(descriptionValidatable) || !validate(peopleValidatable)) {
+            if (!App.validate(titleValidatable) || !App.validate(descriptionValidatable) || !App.validate(peopleValidatable)) {
                 alert('Invalud input');
                 return;
             }
@@ -234,7 +267,7 @@ var App;
             const userInput = this.gatherUserInput();
             if (Array.isArray(userInput)) {
                 const [title, description, people] = userInput;
-                projectState.addProject(title, description, people);
+                App.projectState.addProject(title, description, people);
                 this.clearInputs();
             }
         }
@@ -244,10 +277,14 @@ var App;
         renderContent() { }
     }
     __decorate([
-        autobind
+        App.autobind
     ], ProjectInput.prototype, "submitHandler", null);
-    new ProjectInput();
-    new ProjectList('active');
-    new ProjectList('finished');
+    App.ProjectInput = ProjectInput;
 })(App || (App = {}));
-//# sourceMappingURL=app.js.map
+var App;
+(function (App) {
+    new App.ProjectInput();
+    new App.ProjectList('active');
+    new App.ProjectList('finished');
+})(App || (App = {}));
+//# sourceMappingURL=bundle.js.map
