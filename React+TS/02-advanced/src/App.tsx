@@ -5,6 +5,7 @@
 import Header from "./components/Header";
 import AddTimer from "./components/AddTimer";
 import Timers from "./components/Timers";
+import TimersContextProvider from "./store/timers-context";
 // import Container from "./components/Container";
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
   // }
 
   return (
-    <>
+    <TimersContextProvider>
       <Header/>
       <main>
       {/* <Input id="name" label="Name" type="text" ref={input}/>
@@ -43,7 +44,7 @@ function App() {
         <AddTimer />
         <Timers />
       </main>
-    </>
+    </TimersContextProvider>
   )
 }
 
