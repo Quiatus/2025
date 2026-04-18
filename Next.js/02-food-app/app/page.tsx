@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <Image src="/logo.png" alt="image" width={500} height={486} />
       <h1>Welcome to this NextJS Course!</h1>
       <p>🔥 Let&apos;s get started! 🔥</p>
+      <Link href="/about">About</Link>
     </main>
   );
 }
