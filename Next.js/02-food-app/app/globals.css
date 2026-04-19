@@ -39,6 +39,12 @@ p {
   font-size: 1.5rem;
 }
 
+nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 a, a:visited {
   color: #f4c33d;
   text-decoration: none;

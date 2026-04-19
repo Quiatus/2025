@@ -6,7 +6,10 @@ export default function Home() {
     <main>
       <Header />
       <p>🔥 Let&apos;s get started! 🔥</p>
-      <Link href="/about">About</Link>
+      <nav>
+        <Link href="/about">About</Link>
+        <Link href="/blog">Blog</Link>
+      </nav>
     </main>
   );
 }
