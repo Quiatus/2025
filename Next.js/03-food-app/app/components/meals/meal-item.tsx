@@ -1,17 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Meal } from '@/types/meal';
 
 import classes from './meal-item.module.css';
 
-interface Props {
-  title: string;
-  slug: string;
-  image: string;
-  summary: string;
-  creator: string;
-}
-
-export default function MealItem({ title, slug, image, summary, creator }: Props) {
+export default function MealItem({ title, slug, image, summary, creator }: Meal) {
   return (
     <article className={classes.meal}>
       <header>
