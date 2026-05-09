@@ -7,3 +7,7 @@ export async function getMeals(): Promise<Meal[]> {
   await new Promise((res) => setTimeout(res, 500))
   return db.prepare('SELECT * FROM meals').all() as Meal[]
 }
+
+export function getMeal(slug: string): Meal | undefined {
+  return db.prepare('select * FROM meals WHERE slug = ?').get(slug) as Meal | undefined
+}
