@@ -34,7 +34,7 @@ export default function ShareMealPage() {
             <label htmlFor="instructions">Instructions</label>
             <textarea id="instructions" name="instructions" rows={10} required />
           </p>
-          <ImagePicker label='x' name='x'/>
+          <ImagePicker label='' name='image'/>
           <p className={classes.actions}>
             <button type="submit">Share Meal</button>
           </p>
