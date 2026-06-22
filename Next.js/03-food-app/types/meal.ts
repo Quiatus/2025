@@ -1,10 +1,15 @@
-export interface Meal {
-  id: string | number;
+export interface FormMeal {
   title: string;
-  slug: string;
-  image: string;
   summary: string;
+  instructions: string;
+  image: File;
   creator: string;
   creator_email: string;
-  instructions: string;
 }
+
+export interface Meal extends Omit<FormMeal, 'image'> {
+  id: string | number;
+  title: string;
+  image: string;
+}
+
