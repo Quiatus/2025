@@ -3,10 +3,14 @@ import logo from '@/assets/logo.png'
 import styles from './header.module.css'
 import Image from "next/image";
 import NavLink from "./nav-link";
+import Svg from "./svg";
 
 export default function Header() {
   return (
     <header className={styles.header}>
+      <div className="header-background">
+          <Svg />
+      </div>
       <Link className={styles.logo} href="/">
         <Image src={logo} alt="Logo" priority/>
         NextLevel Food

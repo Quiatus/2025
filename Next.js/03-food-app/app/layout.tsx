@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Svg from "./components/UI/svg";
+// import Svg from "./components/UI/svg";
 import './globals.css';
 import Header from './components/UI/header';
 
@@ -16,9 +16,7 @@ export default function RootLayout({ children }: Props ) {
   return (
     <html lang="en">
       <body>
-        <div className="header-background">
-          <Svg />
-        </div>
+        
         <Header />
         {children}
       </body>
