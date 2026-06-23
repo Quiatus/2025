@@ -3,12 +3,17 @@
 import { redirect } from "next/navigation";
 import { saveMeal } from "./meals";
 import { FormMeal } from "@/types/meal";
+import { revalidatePath } from "next/cache";
+
+export type FormState = {
+  message: string | null;
+};
 
 function isInvalidText(text: string) {
   return !text || text.trim() === ''
 }
 
-export async function shareMeal(formData: FormData) {
+export async function shareMeal(prevState: FormState, formData: FormData) {
   const meal: FormMeal = {
     title: formData.get('title') as string,
     summary: formData.get('summary') as string,
@@ -27,9 +32,12 @@ export async function shareMeal(formData: FormData) {
     !meal.creator_email.includes('@') ||
     !meal.image || meal.image.size === 0
   ) {
-    throw new Error('Invalid input!')
+    return {
+      message: 'Invalid input!'
+    }
   }
 
   await saveMeal(meal)
+  revalidatePath('/meals')
   redirect('/meals')
 }
