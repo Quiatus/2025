@@ -1,4 +1,5 @@
 import { DUMMY_NEWS } from "@/dummy-news"
+import { notFound } from "next/navigation"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -7,6 +8,10 @@ type Props = {
 export default async function NewsArticle({ params }: Props) {
   const { slug } = await params
   const newsItem = DUMMY_NEWS.find(newsItem => newsItem.slug === slug)
+
+  if(!newsItem) {
+    notFound()
+  }
 
   return (
     <article className="news-article">
