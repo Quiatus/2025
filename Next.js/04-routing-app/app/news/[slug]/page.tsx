@@ -1,5 +1,6 @@
 import { DUMMY_NEWS } from "@/dummy-news"
 import { notFound } from "next/navigation"
+import Link from "next/link"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -16,7 +17,9 @@ export default async function NewsArticle({ params }: Props) {
   return (
     <article className="news-article">
       <header>
-        <img src={`/images/news/${newsItem!.image}`} alt={newsItem!.title} />
+        <Link href={`/news/${newsItem.slug}/image`}>
+          <img src={`/images/news/${newsItem!.image}`} alt={newsItem!.title} />
+        </Link>
         <h1>{newsItem!.title}</h1>
         <time dateTime={newsItem!.date}>{newsItem!.date}</time>
       </header>
