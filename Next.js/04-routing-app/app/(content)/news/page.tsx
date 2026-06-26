@@ -1,4 +1,4 @@
-import NewsList from '../components/news-list'
+import NewsList from '@/app/components/news-list'
 import { DUMMY_NEWS } from '@/dummy-news'
 
 export default function News() {
