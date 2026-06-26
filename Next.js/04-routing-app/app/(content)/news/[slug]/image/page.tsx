@@ -1,4 +1,5 @@
-import { DUMMY_NEWS } from "@/dummy-news"
+
+import { getNewsItem } from "@/app/lib/news"
 import { notFound } from "next/navigation"
 
 interface ImageProps {
@@ -7,7 +8,7 @@ interface ImageProps {
 
 export default async function ImagePage({ params }: ImageProps) {
   const { slug } = await params
-  const newsItem = DUMMY_NEWS.find(newsItem => newsItem.slug === slug)
+  const newsItem = await getNewsItem(slug)
 
   if (!newsItem) {
     notFound()
