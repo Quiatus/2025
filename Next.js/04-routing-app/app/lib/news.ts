@@ -37,19 +37,19 @@ export async function getAvailableNewsYears(): Promise<string[]> {
   return years.map((y) => y.year);
 }
 
-export function getAvailableNewsMonths(year: number | string): string[] {
+export function getAvailableNewsMonths(year: string): string[] {
   const months = db.prepare("SELECT DISTINCT strftime('%m', date) as month FROM news WHERE strftime('%Y', date) = ?").all(year) as { month: string }[]
   return months.map((m) => m.month);
 }
 
-export async function getNewsForYear(year: number | string): Promise<NewsItem[]> {
+export async function getNewsForYear(year: string): Promise<NewsItem[]> {
   const news = db.prepare("SELECT * FROM news WHERE strftime('%Y', date) = ? ORDER BY date DESC").all(year) as NewsItem[];
   await new Promise((resolve) => setTimeout(resolve, SIMULATE_API_DELAY));
   return news;
 }
 
-export async function getNewsForYearAndMonth(year: number | string, month: number | string): Promise<NewsItem[]> {
+export async function getNewsForYearAndMonth(year: string, month: string): Promise<NewsItem[]> {
   const news = db.prepare("SELECT * FROM news WHERE strftime('%Y', date) = ? AND strftime('%m', date) = ? ORDER BY date DESC").all(year, month) as NewsItem[];
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, SIMULATE_API_DELAY));
   return news;
 }
