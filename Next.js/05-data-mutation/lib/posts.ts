@@ -1,3 +1,4 @@
+import { Post } from '@/types/types';
 import sql from 'better-sqlite3';
 
 const db = new sql('posts.db');
@@ -67,7 +68,7 @@ export async function getPosts(maxNumber: number) {
   return maxNumber ? stmt.all(maxNumber) : stmt.all();
 }
 
-export async function storePost(post) {
+export async function storePost(post: Post) {
   const stmt = db.prepare(`
     INSERT INTO posts (image_url, title, content, user_id)
     VALUES (?, ?, ?, ?)`);
@@ -75,7 +76,7 @@ export async function storePost(post) {
   return stmt.run(post.imageUrl, post.title, post.content, post.userId);
 }
 
-export async function updatePostLikeStatus(postId, userId) {
+export async function updatePostLikeStatus(postId: number, userId: number) {
   const stmt = db.prepare(`
     SELECT COUNT(*) AS count
     FROM likes
