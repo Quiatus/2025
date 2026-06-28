@@ -6,11 +6,11 @@ export interface User {
 }
 
 export interface Post {
-  id: number;
+  //id: number;
   imageUrl: string;
   title: string;
   content: string;
-  createdAt: string;
+  //createdAt: string;
   userId: number
 }
 

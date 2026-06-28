@@ -33,7 +33,11 @@ function initDb() {
   // Creating two dummy users if they don't exist already
   const stmt = db.prepare('SELECT COUNT(*) AS count FROM users');
 
-  if (stmt.get().count === 0) {
+  // added
+  const row = stmt.get() as { count: number }; 
+
+  // if (stmt.get().count === 0) {
+  if (row.count === 0) { 
     db.exec(`
     INSERT INTO users (first_name, last_name, email)
     VALUES ('John', 'Doe', 'john@example.com')
@@ -64,7 +68,7 @@ export async function getPosts(maxNumber: number) {
     ORDER BY createdAt DESC
     ${limitClause}`);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 200));
   return maxNumber ? stmt.all(maxNumber) : stmt.all();
 }
 
@@ -72,7 +76,7 @@ export async function storePost(post: Post) {
   const stmt = db.prepare(`
     INSERT INTO posts (image_url, title, content, user_id)
     VALUES (?, ?, ?, ?)`);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 200));
   return stmt.run(post.imageUrl, post.title, post.content, post.userId);
 }
 
@@ -82,19 +86,23 @@ export async function updatePostLikeStatus(postId: number, userId: number) {
     FROM likes
     WHERE user_id = ? AND post_id = ?`);
 
-  const isLiked = stmt.get(userId, postId).count === 0;
+  // added
+  const row = stmt.get(userId, postId) as { count: number };
+  const isLiked = row.count === 0;
+
+  // const isLiked = stmt.get(userId, postId).count === 0;
 
   if (isLiked) {
     const stmt = db.prepare(`
       INSERT INTO likes (user_id, post_id)
       VALUES (?, ?)`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     return stmt.run(userId, postId);
   } else {
     const stmt = db.prepare(`
       DELETE FROM likes
       WHERE user_id = ? AND post_id = ?`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     return stmt.run(userId, postId);
   }
 }

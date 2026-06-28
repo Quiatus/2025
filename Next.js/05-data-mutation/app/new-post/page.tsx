@@ -1,11 +1,52 @@
+import FormSubmit from "@/components/form-submit"
+import { storePost } from "@/lib/posts"
+import { redirect } from "next/navigation"
+import { useActionState } from "react"
+
 export default function NewPostPage() {
+  async function createPost(formData: FormData) {
+    'use server'
+    const title = formData.get('title') as string
+    const image = formData.get('image')
+    const content = formData.get('content') as string
+
+    const errors = []
+
+    if (!title || title.trim().length === 0) {
+      errors.push('Title is required')
+    }
+
+    if (!content || content.trim().length === 0) {
+      errors.push('Content is required')
+    }
+
+    if (!image) {
+      errors.push('Image is required')
+    }
+
+    if (errors.length > 0) {
+      return { errors }
+    }
+
+    await storePost({
+      imageUrl: '',
+      title,
+      content,
+      userId: 1,
+    })
+
+    redirect('/feed')
+  }
+
+  const [state, formAction] = useActionState(createPost, {})
+
   return (
     <>
       <h1>Create a new post</h1>
-      <form>
+      <form action={formAction}>
         <p className="form-control">
           <label htmlFor="title">Title</label>
-          <input type="text" id="title" name="title" />
+          <input type="text" id="title" name="title" required />
         </p>
         <p className="form-control">
           <label htmlFor="image">Image URL</label>
@@ -14,15 +55,15 @@ export default function NewPostPage() {
             accept="image/png, image/jpeg"
             id="image"
             name="image"
+            required
           />
         </p>
         <p className="form-control">
           <label htmlFor="content">Content</label>
-          <textarea id="content" name="content" rows={5}/>
+          <textarea id="content" name="content" rows={5} required/>
         </p>
         <p className="form-actions">
-          <button type="reset">Reset</button>
-          <button>Create Post</button>
+          <FormSubmit />
         </p>
       </form>
     </>
