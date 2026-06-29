@@ -1,5 +1,6 @@
 'use server'
 
+import { uploadImage } from "@/lib/cloudinary";
 import { storePost } from "@/lib/posts"
 import { redirect } from "next/navigation"
 
@@ -30,8 +31,16 @@ export async function createPost(prevState: FormState, formData: FormData): Prom
     return { errors }
   }
 
+  let imageUrl
+
+  try {
+    imageUrl = await uploadImage(image)
+  } catch (err) {
+    throw new Error('Image upload failed, please try again later')
+  }
+
   await storePost({
-    imageUrl: '',
+    imageUrl,
     title,
     content,
     userId: 1,
