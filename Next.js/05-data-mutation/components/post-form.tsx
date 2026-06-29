@@ -2,7 +2,7 @@
 
 import { useActionState } from "react"
 import FormSubmit from "@/components/form-submit"
-import type { FormState } from "@/app/new-post/page"
+import type { FormState } from "@/actions/posts"
 
 interface PostFormProps {
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
