@@ -1,18 +1,28 @@
 export interface User {
   id: number;
-  firstName: string; 
-  lastName: string;
+  userFirstName: string; 
+  userLastName: string;
   email: string
 }
 
 export interface Post {
-  //id: number;
+  id: number;
   imageUrl: string;
   title: string;
   content: string;
-  //createdAt: string;
-  userId: number
+  createdAt: string;
+  userId: number;
+  userFirstName: string;
+  isLiked: boolean;
 }
+
+export interface UploadPost {
+  userId: number;
+  imageUrl: string;
+  title: string;
+  content: string;
+}
+
 
 export interface Like {
   userId: number;

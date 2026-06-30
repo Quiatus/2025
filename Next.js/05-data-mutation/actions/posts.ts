@@ -1,7 +1,7 @@
 'use server'
 
 import { uploadImage } from "@/lib/cloudinary";
-import { storePost } from "@/lib/posts"
+import { storePost, updatePostLikeStatus } from "@/lib/posts"
 import { redirect } from "next/navigation"
 
 export type FormState = {
@@ -47,4 +47,8 @@ export async function createPost(prevState: FormState, formData: FormData): Prom
   })
 
   redirect('/feed')
+}
+
+export async function togglePostLikeStatus(postId: number) {
+  updatePostLikeStatus(postId, 2)
 }
