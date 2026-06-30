@@ -14,6 +14,7 @@ export interface Post {
   userId: number;
   userFirstName: string;
   isLiked: boolean;
+  likes: number
 }
 
 export interface UploadPost {

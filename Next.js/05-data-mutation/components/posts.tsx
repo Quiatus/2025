@@ -1,9 +1,17 @@
+'use client'
+
 import { formatDate } from '@/lib/format';
 import LikeButton from './like-icon';
 import { togglePostLikeStatus } from '@/actions/posts';
 import { Post as PostProps } from '@/types/types';
+import { useOptimistic } from 'react';
 
-function Post({ post }: { post: PostProps }) {
+interface PostComponentProps {
+  post: PostProps;
+  action: (postId: number) => Promise<void>;
+}
+
+function Post({ post, action }: PostComponentProps) {
   return (
     <article className="post">
       <div className="post-image">
@@ -21,7 +29,7 @@ function Post({ post }: { post: PostProps }) {
             </p>
           </div>
           <div>
-            <form action={togglePostLikeStatus.bind(null, post.id)} className={post.isLiked ? 'liked' : ''}>
+            <form action={action.bind(null, post.id)} className={post.isLiked ? 'liked' : ''}>
               <LikeButton />
             </form>
           </div>
@@ -33,15 +41,36 @@ function Post({ post }: { post: PostProps }) {
 }
 
 export default function Posts({ posts }: { posts: PostProps[] }) {
-  if (!posts || posts.length === 0) {
+  const [optimisticPosts, updateOptimisticPosts] = useOptimistic(posts, (prevPosts, updatedPostId) => {
+    const updatedPostIndex = prevPosts.findIndex(post => post.id === updatedPostId)
+
+    if (updatedPostIndex === -1) {
+      return prevPosts
+    }
+
+    const updatedPost = {...prevPosts[updatedPostIndex]}
+    updatedPost.likes = updatedPost.likes + (updatedPost.isLiked ? -1 : 1)
+    updatedPost.isLiked = !updatedPost.isLiked
+    const newPosts = [...prevPosts]
+    newPosts[updatedPostIndex] = updatedPost
+
+    return newPosts
+  })
+
+  if (!optimisticPosts || optimisticPosts.length === 0) {
     return <p>There are no posts yet. Maybe start sharing some?</p>;
+  }
+
+  async function updatePost(postId: number) {
+    updateOptimisticPosts(postId)
+    await togglePostLikeStatus(postId)
   }
 
   return (
     <ul className="posts">
-      {posts.map((post) => (
+      {optimisticPosts.map((post) => (
         <li key={post.id}>
-          <Post post={post} />
+          <Post post={post} action={updatePost} />
         </li>
       ))}
     </ul>
