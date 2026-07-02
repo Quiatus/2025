@@ -5,17 +5,26 @@ import LikeButton from './like-icon';
 import { togglePostLikeStatus } from '@/actions/posts';
 import { Post as PostProps } from '@/types/types';
 import { useOptimistic } from 'react';
+import Image from 'next/image';
+import type { ImageLoaderProps } from 'next/image';
 
 interface PostComponentProps {
   post: PostProps;
   action: (postId: number) => Promise<void>;
 }
 
+function imageLoader({ src, quality }: ImageLoaderProps) {
+  const urlStart = src.split('upload/')[0]
+  const urlEnd = src.split('upload/')[1]
+  const transformations = `w_200,q_${quality}`
+  return `${urlStart}upload/${transformations}/${urlEnd}`
+}
+
 function Post({ post, action }: PostComponentProps) {
   return (
     <article className="post">
       <div className="post-image">
-        <img src={post.imageUrl} alt={post.title} />
+        <Image loader={imageLoader} src={post.imageUrl} fill alt={post.title} quality={80}/>
       </div>
       <div className="post-content">
         <header>
