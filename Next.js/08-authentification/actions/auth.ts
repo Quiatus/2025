@@ -1,6 +1,8 @@
 'use server'
 
+import { hashUserPassword } from "@/lib/hash";
 import { createUser } from "@/lib/user";
+import { redirect } from "next/navigation";
 
 export interface FormState {
   errors?: {
@@ -29,7 +31,23 @@ export async function signup(prevState: FormState, formData: FormData): Promise<
     }
   }
 
-  createUser(email, password)
+  const hashedPassword = hashUserPassword(password)
 
-  return { errors: {}}
+  try {
+    createUser(email, hashedPassword)
+  } catch (error) {
+    const dbError = error as { code?: string }
+
+    if (dbError.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return {
+        errors: {
+          email: 'This account already exists.'
+        }
+      }
+    }
+
+    throw error
+  }
+
+  redirect('/training')
 } 
