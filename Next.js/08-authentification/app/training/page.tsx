@@ -1,7 +1,14 @@
 import { getTrainings } from '@/lib/training';
 
+interface TrainingType {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+}
+
 export default async function TrainingPage() {
-  const trainingSessions = getTrainings();
+  const trainingSessions = getTrainings() as TrainingType[];
 
   return (
     <main>
