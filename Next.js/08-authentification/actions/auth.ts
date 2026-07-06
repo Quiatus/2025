@@ -1,8 +1,8 @@
 'use server'
 
 import { createAuthSession } from "@/lib/auth";
-import { hashUserPassword } from "@/lib/hash";
-import { createUser } from "@/lib/user";
+import { hashUserPassword, verifyPassword } from "@/lib/hash";
+import { createUser, getUserByEmail } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export interface FormState {
@@ -10,6 +10,12 @@ export interface FormState {
     email?: string;
     password?: string;
   }
+}
+
+export interface UserType {
+  id: string;
+  email: string;
+  password: string;
 }
 
 export async function signup(prevState: FormState, formData: FormData): Promise<FormState> {
@@ -36,7 +42,7 @@ export async function signup(prevState: FormState, formData: FormData): Promise<
 
   try {
     const id = createUser(email, hashedPassword)
-    createAuthSession(id)
+    await createAuthSession(id)
     redirect('/training')
   } catch (error) {
     const dbError = error as { code?: string }
@@ -52,3 +58,31 @@ export async function signup(prevState: FormState, formData: FormData): Promise<
     throw error
   }
 } 
+
+export async function login(prevState: FormState, formData: FormData): Promise<FormState> {
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+
+  const existingUser = await getUserByEmail(email)
+
+  if (!existingUser) {
+    return {
+      errors: {
+        email: 'Could not authenticate user, please try again.'
+      }
+    }
+  }
+
+  const isValidPassword = verifyPassword(existingUser.password, password)
+
+  if (!isValidPassword) {
+    return {
+      errors: {
+        password: 'Invalid password, please try again.'
+      }
+    }
+  }
+
+  await createAuthSession(existingUser.id)
+  redirect('/training')
+}
