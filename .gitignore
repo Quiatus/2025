@@ -3,3 +3,4 @@
 /Typescript/00-ts
 *node_modules
 *.map
+mongo.js
