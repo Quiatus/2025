@@ -21,41 +21,22 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 
-app.get('/add-blog', async (req, res) => {
-  const blog = new Blog({
-    title: 'New Blog',
-    snippet: 'About new blog',
-    body: 'text text text text'
-  })
-
-  try {
-    const result = await blog.save()
-    res.send(result)
-  } catch (err) {
-    console.log(err)
-  }
-})
-
-app.get('/all-blogs', async (req, res) => {
-  try {
-    const blogs = await Blog.find()
-    res.send(blogs)
-  } catch (err) {
-    console.log(err)
-  }
-})
-
 app.get('/', (req, res) => {
-  const blogs = [
-    { title: "Title A", snippet: "Lorem ipsum, dolor sit amet consectetur"},
-    { title: "Title B", snippet: "Lorem ipsum, dolor sit amet consectetur"},
-    { title: "Title C", snippet: "Lorem ipsum, dolor sit amet consectetur"},
-  ]
-  res.render('index', { title: 'Home', blogs })
+  res.redirect('/blogs')
 })
 
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About' })
+})
+
+app.get('/blogs', async (req, res) => {
+  try {
+    const result = await Blog.find().sort({ createdAt: -1 })
+    res.render('index', { title: 'All blogs', blogs: result })
+  } catch (err) {
+    console.log(err)
+  }
+
 })
 
 app.get('/blogs/create', (req, res) => {
@@ -74,4 +55,28 @@ connectDB()
 //   console.log('path: ', req.path)
 //   console.log('method: ', req.method)
 //   next()
+// })
+
+// app.get('/add-blog', async (req, res) => {
+//   const blog = new Blog({
+//     title: 'New Blog',
+//     snippet: 'About new blog',
+//     body: 'text text text text'
+//   })
+
+//   try {
+//     const result = await blog.save()
+//     res.send(result)
+//   } catch (err) {
+//     console.log(err)
+//   }
+// })
+
+// app.get('/all-blogs', async (req, res) => {
+//   try {
+//     const blogs = await Blog.find()
+//     res.send(blogs)
+//   } catch (err) {
+//     console.log(err)
+//   }
 // })
