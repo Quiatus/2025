@@ -20,6 +20,7 @@ async function connectDB() {
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
   res.redirect('/blogs')
@@ -40,7 +41,28 @@ app.get('/blogs', async (req, res) => {
 })
 
 app.get('/blogs/create', (req, res) => {
-  res.render('create', { title: 'Create a new Blog' })
+  res.render('create', { title: 'Create a new blog' });
+});
+
+app.get('/blogs/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const result = await Blog.findById(id)
+    res.render('details', { blog: result, title: result.title })
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+app.post('/blogs', async (req, res) => {
+  const blog = new Blog(req.body)
+
+  try {
+    await blog.save()
+    res.redirect('/blogs')
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 app.use((req, res) => {
