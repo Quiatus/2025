@@ -1,7 +1,6 @@
-//const express = require('express')
 import express from 'express'
 import mongoose from 'mongoose'
-import { Blog } from './models/blog.js'
+import { router as blogRoutes } from './routes/blogRouters.js'
 import { username, password } from './local.js'
 
 const app = express()
@@ -17,8 +16,8 @@ async function connectDB() {
     console.log(err)
   }
 }
-app.set('view engine', 'ejs')
 
+app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
@@ -30,87 +29,10 @@ app.get('/about', (req, res) => {
   res.render('about', { title: 'About' })
 })
 
-app.get('/blogs', async (req, res) => {
-  try {
-    const result = await Blog.find().sort({ createdAt: -1 })
-    res.render('index', { title: 'All blogs', blogs: result })
-  } catch (err) {
-    console.log(err)
-  }
-
-})
-
-app.get('/blogs/create', (req, res) => {
-  res.render('create', { title: 'Create a new blog' });
-});
-
-app.get('/blogs/:id', async (req, res) => {
-  const id = req.params.id
-  try {
-    const result = await Blog.findById(id)
-    res.render('details', { blog: result, title: result.title })
-  } catch (err) {
-    console.log(err)
-  }
-})
-
-app.post('/blogs', async (req, res) => {
-  const blog = new Blog(req.body)
-
-  try {
-    await blog.save()
-    res.redirect('/blogs')
-  } catch (err) {
-    console.log(err)
-  }
-})
-
-app.delete('/blogs/:id', async (req, res) => {
-  const id = req.params.id
-  
-  try {
-    await Blog.findByIdAndDelete(id)
-    res.json({ redirect: '/blogs' })
-  } catch (err) {
-    console.log(err)
-  }
-
-})
+app.use(blogRoutes)
 
 app.use((req, res) => {
   res.status(404).render('404', { title: '404' })
 })
 
 connectDB()
-
-// app.use((req, res, next) => {
-//   console.log('request made')
-//   console.log('host: ', req.hostname)
-//   console.log('path: ', req.path)
-//   console.log('method: ', req.method)
-//   next()
-// })
-
-// app.get('/add-blog', async (req, res) => {
-//   const blog = new Blog({
-//     title: 'New Blog',
-//     snippet: 'About new blog',
-//     body: 'text text text text'
-//   })
-
-//   try {
-//     const result = await blog.save()
-//     res.send(result)
-//   } catch (err) {
-//     console.log(err)
-//   }
-// })
-
-// app.get('/all-blogs', async (req, res) => {
-//   try {
-//     const blogs = await Blog.find()
-//     res.send(blogs)
-//   } catch (err) {
-//     console.log(err)
-//   }
-// })
