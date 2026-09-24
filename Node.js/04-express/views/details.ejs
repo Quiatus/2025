@@ -10,9 +10,21 @@
     <div class="content">
       <p><%= blog.body %></p>
     </div>
+    <a class="delete" data-doc="<%= blog._id %>">delete</a>
   </div>
 
   <%- include('./partials/foot.ejs') %>
+
+  <script>
+    const trashcan = document.querySelector('a.delete')
+
+    trashcan.addEventListener('click', async (e) => {
+      const endpoint = `/blogs/${trashcan.dataset.doc}`
+      const response = await fetch(endpoint, { method: 'DELETE' })
+      const data = await response.json()
+      window.location.href = data.redirect
+    })
+  </script>
 
 </body>
 </html>
