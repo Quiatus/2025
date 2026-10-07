@@ -5,11 +5,7 @@ import { blog_index, blog_details, blog_create_get, blog_create_post, blog_delet
 export const router = express.Router()
 
 router.get('/blogs', blog_index)
-
 router.get('/blogs/create', blog_create_get);
-
 router.get('/blogs/:id', blog_details)
-
 router.post('/blogs', blog_create_post)
-
 router.delete('/blogs/:id', blog_delete)
